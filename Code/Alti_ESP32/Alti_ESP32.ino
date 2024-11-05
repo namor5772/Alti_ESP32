@@ -54,8 +54,14 @@ void setup() {
     delay(1000);
     lcd.clear();
 
-    lcd.print("Hi there");
+    lcd.print("Hi there bb");
     lcd.println(":D");
+
+    lcd.setCursor(0, 3);
+    lcd.println("11111 2 3 ...");
+
+    lcd.setCursor(0, 4);
+    lcd.println("1 232 3 ...");
 
     lcd.setCursor(0, 5);
     lcd.println("1 2 3 ...");
