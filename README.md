@@ -32,17 +32,10 @@ Pricing and availability as of 1-Oct-2024
 
 | Qty | Product | Description | AUD Cost | Comment | Designator |
 | --- | --- | --- | --- | --- | --- |
-| 1 | [XC3800](https://jaycar.com.au/p/XC3800) | Duinotech ESP32 Main Board with Wi-Fi and Bluetooth (ESP-WROOM-32)| $49.95 | The brains of the project with this [datasheet](Extra/XC3800_datasheetMain_87084.pdf) and  [pinout](Images/image_ESP32_board_pinout.png)|  |
-| 1 | [DEV-11113](https://core-electronics.com.au/arduino-pro-mini-328-5v-16mhz.html) | Arduino Pro Mini 328 - 5V/16MHz | $17.40 | The brains of this project, no pre-soldered headers  | XC1 |
-| 1 | [POLOLU-3760](https://core-electronics.com.au/graphical-oled-display-128x64-1-3-white-spi.html) | Graphical OLED Display: 128x64, 1.3", White, SPI, 5V  | $22.20 | The display used in this project with [this driver chip](Extra/SH1106.pdf) | U1 |
-| 1 | [BARO (52)](https://www.freetronics.com.au/products/barometric-pressure-sensor-module) | I2C 5V Barometric Pressure Sensor Module | $19.00 | based on the [MS5673 chip](Extra/ENG_DS_MS5637-02BA03_B5.pdf) | U2 |
-| 1 | [ADA5580](https://core-electronics.com.au/adafruit-max17048-lipoly-liion-fuel-gauge-and-battery-monitor-stemma-jst-ph-qt-qwiic.html) | Adafruit I2C 5V MAX17048 LiPoly / LiIon Fuel Gauge and Battery Monitor - STEMMA JST PH & QT / Qwiic | $11.75 | based on the [MAX17048 chip](Extra/MAX17048-MAX17049.pdf) | U5 |
-| 1 | [ADA1904](https://core-electronics.com.au/adafruit-micro-lipo-w-microusb-jack-usb-liion-lipoly-charger-v1.html) | Adafruit Micro Lipo w/MicroUSB Jack - USB LiIon/LiPoly charger - v1 | $13.45 | based on the [MCP73831 chip](Extra/MCP73831.pdf) | U4 |
-| 1 | [POLOLU-2564](https://core-electronics.com.au/pololu-5v-step-up-voltage-regulator-u1v10f5.html) | Pololu 5V Step-Up Voltage Regulator U1V10F5 | $9.50 | based on this [chip](Extra/tps61200_193680627bc.pdf) | U3 |
-| 1 | [S4724](https://www.altronics.com.au/p/s4724-3.7v-1100mah-polymer-lithium-ion-battery-lipo/) | 3.7V 1100mAh Polymer Lithium Ion Battery (LiPo) | $21.95 | The LiPo battery that powers this project | Connects to U4 using JST-PH connector |
-| 1 | [SS0812](https://jaycar.com.au/p/SS0812) | Sub-miniature DPDT Panel Mount Switch | $1.75 | on/off switch to power this altimeter | SW1 |
-| 1 | [HP9544](https://jaycar.com.au/p/HP9544) | PC Boards Vero Type Strip - 95mm x 305mm | $15.50 | Contains the circuit | |
-| 1 | [XC4464](https://jaycar.com.au/p/XC4464) | Duinotech Arduino Compatible USB to Serial Adaptor (uses FT232 chip) | $28.95 | used to program the Arduino Pro Mini (XC1) ||
+| 1 | [XC3800](https://jaycar.com.au/p/XC3800) | Duinotech ESP32 Main Board with Wi-Fi and Bluetooth (ESP-WROOM-32)| $49.95 | The brains of the project with this [datasheet](Extra/XC3800_datasheetMain_87084.pdf) and  [pinout](Images/image_ESP32_board_pinout.png) |  |
+| 1 | [BARO (52)](https://www.freetronics.com.au/products/barometric-pressure-sensor-module) | I2C 5V Barometric Pressure Sensor Module | $19.00 | based on the [MS5673 chip](Extra/ENG_DS_MS5637-02BA03_B5.pdf) |  |
+| 1 | [XC4616](https://jaycar.com.au/p/XC4616) | Arduino Compatible 84x48 Dot Matrix LCD Display Module | $22.95 | The display used in this project with this [datasheet](Extra/XC4616_datasheetMain_73067.pdf) and [driver](Extra/XC4616_datasheetMain_73067.pdf)|  |
+| 1 | [S4724](https://www.altronics.com.au/p/s4724-3.7v-1100mah-polymer-lithium-ion-battery-lipo/) | 3.7V 1100mAh Polymer Lithium Ion Battery (LiPo) | $21.95 | The LiPo battery that powers this project | Connects to U4 using JST-PH connector |  |
 
 ### Other parts
 
