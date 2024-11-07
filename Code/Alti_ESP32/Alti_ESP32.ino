@@ -1,12 +1,12 @@
-#include <Nokia_5110.h>
-
 #include "MS5637.h"
+#include "PCD8544.h"
+
 
 // Nokia 5772 - PCD8544 driver chip
 // 1 - VCC (3v3)
 // 2 - GND
 // 3 - SCE (CE)
-// 4 - RST
+// 4 - RST (RST)
 // 5 - D/C (DC)
 // 6 - DN<MOSI> (DIN)
 // 7 - SCLK (CLK)
@@ -17,7 +17,13 @@
 #define DIN 5
 #define CLK 18
 
-Nokia_5110 lcd = Nokia_5110(RST, CE, DC, DIN, CLK);
+//PCD8544::PCD8544(unsigned short RST, unsigned short CE, unsigned short DC, unsigned short DIN, unsigned short CLK){
+
+// An instance called LCD of the PCD8544 class is created
+// The module uses an enhanced bit-bashed 3-Wire SPI communications protcol
+// The specified pins are: CLK, MOS, RES, DC, CS.
+PCD8544 lcd{RST, CE, DC, DIN, CLK};
+
 
 // An instance of the MS5637 called BARO is created
 // The module is I2C and has just 4 pins:
@@ -55,16 +61,23 @@ void setup() {
     lcd.clear();
 
     lcd.print("Hi there bb");
-    lcd.println(":D");
+    lcd.print(":D");
 
     lcd.setCursor(0, 3);
-    lcd.println("11111 2 3 ...");
+    lcd.print("11111 2 3 ...");
 
     lcd.setCursor(0, 4);
-    lcd.println("1 232 3 ...");
+    lcd.print("1 232 3 ...");
 
     lcd.setCursor(0, 5);
-    lcd.println("1 2 3 ...");
+    lcd.print("1 2 3 ...");
+
+    delay(2000);
+
+   
+    lcd.setCursor(0, 2);
+    lcd.print("12345678901234");
+
 
   // setup MS5637 sensor (An instance of the MS5637 object BARO has been constructed above)
   BARO.begin();

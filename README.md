@@ -34,7 +34,7 @@ Pricing and availability as of 1-Oct-2024
 | --- | --- | --- | --- | --- | --- |
 | 1 | [XC3800](https://jaycar.com.au/p/XC3800) | Duinotech ESP32 Main Board with Wi-Fi and Bluetooth (ESP-WROOM-32)| $49.95 | The brains of the project with this [datasheet](Extra/XC3800_datasheetMain_87084.pdf) and  [pinout](Images/image_ESP32_board_pinout.png) |  |
 | 1 | [BARO (52)](https://www.freetronics.com.au/products/barometric-pressure-sensor-module) | I2C 5V Barometric Pressure Sensor Module | $19.00 | based on the [MS5673 chip](Extra/ENG_DS_MS5637-02BA03_B5.pdf) |  |
-| 1 | [XC4616](https://jaycar.com.au/p/XC4616) | Arduino Compatible 84x48 Dot Matrix LCD Display Module | $22.95 | The display used in this project with this [datasheet](Extra/XC4616_datasheetMain_73067.pdf) and [driver](Extra/XC4616_datasheetMain_73067.pdf)|  |
+| 1 | [XC4616](https://jaycar.com.au/p/XC4616) | Arduino Compatible 84x48 Dot Matrix LCD Display Module | $22.95 | The display used in this project with this [datasheet](Extra/XC4616_datasheetMain_73067.pdf) and [driver](Extra/PCD8544.pdf)|  |
 | 1 | [S4724](https://www.altronics.com.au/p/s4724-3.7v-1100mah-polymer-lithium-ion-battery-lipo/) | 3.7V 1100mAh Polymer Lithium Ion Battery (LiPo) | $21.95 | The LiPo battery that powers this project | Connects to U4 using JST-PH connector |  |
 
 ### Other parts
