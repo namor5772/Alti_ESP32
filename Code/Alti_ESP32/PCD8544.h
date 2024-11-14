@@ -1,17 +1,27 @@
 #ifndef PCD8544_H
 #define PCD8544_H
-
 #include "Arduino.h"
-#include "xDisplay_Mode.h"
-#include "xMux_Rate.h"
-#include "xCursor.h"
 
-typedef unsigned short int position;
+// Display Mode constants
+#define BLANK 0x8
+#define NORMAL 0xc
+#define ALL_SEGMENTS_ON 0x9
+#define VIDEO 0xd
 
-struct MyCursor {
-    position x;
-    position y;
-};
+// Bias System constants
+#define HUNDRED 0x10
+#define EIGHTY 0x11
+#define SIXTY_FIVE 0x12
+#define FORTY_EIGHT 0x13
+#define FORTY 0x14
+#define TWENTY_FOUR 0x15
+#define EIGHTEEN 0x16
+#define TEN 0x17
+
+// Command type constants 
+#define BASIC 0x20
+#define ADVANCED 0x21
+
 
 class PCD8544 : public Print {
 
@@ -19,13 +29,12 @@ class PCD8544 : public Print {
     PCD8544(uint8_t RST, uint8_t CE, uint8_t DC, uint8_t DIN, uint8_t CLK);
 
     void setContrast(uint8_t c);
-
-    void setTemperatureCoefficient(unsigned short value);
+    void setTemperatureCoefficient(uint8_t value);
     void clear();
-    void clear(position inRow, position fromColumn, position toColumn);
-    void setCursor(position x, position y);
-    void setDisplayMode(display_mode mode);
-    void setBiasSystem(mux_rate rate);
+    void clear(uint8_t inRow, uint8_t fromColumn, uint8_t toColumn);
+    void setCursor(uint8_t x, uint8_t y);
+    void setDisplayMode(byte mode);
+    void setBiasSystem(byte rate);
 
     virtual size_t write(uint8_t ch); // Overriding Print's write method
     
@@ -33,23 +42,17 @@ class PCD8544 : public Print {
 
     // low level SPI comms with PC8544
     void TransferStart();
-    void CommandMode();
+    void CommandMode(byte cm);
     void DataMode();
     void WriteByte(byte d);
     void TransferEnd();
 
     // setup functions    
     void reset();
-    
-    void executeCommand(byte c);
 
-    void extendedInstruction();
-    void basicInstruction();
-    void makeEnoughSpaceForPrinting(unsigned short int newCharacterLength);
-
+    // data variables
     uint8_t _RST, _CE, _DC, _DIN, _CLK;
-    MyCursor _mycursor;
-    Cursor _cursor;
+    uint8_t Xcur, Ycur;
 };
 
 #endif

@@ -60,23 +60,23 @@ void setup() {
     delay(1000);
     lcd.clear();
 
+    lcd.setDisplayMode(VIDEO);
+
     lcd.print("Hi there bb");
     lcd.print(":D");
 
-    lcd.setCursor(0, 3);
+    lcd.setCursor(0, 1);
     lcd.print("11111 2 3 ...");
 
-    lcd.setCursor(0, 4);
-    lcd.print("1 232 3 ...");
+    lcd.setCursor(0, 2);
+    lcd.print("0123456789a");
 
-    lcd.setCursor(0, 5);
-    lcd.print("1 2 3 ...");
-
+  
     delay(2000);
 
    
-    lcd.setCursor(0, 2);
-    lcd.print("12345678901234");
+    lcd.setCursor(0, 4);
+    lcd.print("abcdefghijklmno123456\n78901");
 
 
   // setup MS5637 sensor (An instance of the MS5637 object BARO has been constructed above)

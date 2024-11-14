@@ -1,6 +1,6 @@
 #include "Arduino.h"
 #include "PCD8544.h"
-#include "xFont.h"
+#include "Font.h"
 
 PCD8544::PCD8544(uint8_t RST, uint8_t CE, uint8_t DC, uint8_t DIN, uint8_t CLK):
   _RST(RST), _CE(CE), _DC(DC), _DIN(DIN), _CLK(CLK) {
@@ -11,14 +11,12 @@ PCD8544::PCD8544(uint8_t RST, uint8_t CE, uint8_t DC, uint8_t DIN, uint8_t CLK):
     pinMode(DIN, OUTPUT);
     pinMode(CLK, OUTPUT);
 
-    _cursor = Cursor();
-    _mycursor.y = 0;
-    _mycursor.x = 0;
+    Xcur = 0; Ycur = 0;
 
     reset();
     clear();
-    setDisplayMode(Display_Mode::NORMAL);
-    setBiasSystem(Mux_Rate::FORTY);
+    setDisplayMode(NORMAL);
+    setBiasSystem(FORTY);
     setContrast(60);
 }
 
@@ -26,8 +24,9 @@ void PCD8544::TransferStart(){
     digitalWrite(_CE, LOW); // CS (Upper score)
 }
 
-void PCD8544::CommandMode(){
+void PCD8544::CommandMode(byte cm){
     digitalWrite(_DC, LOW); // A0 set as LOW
+    WriteByte(cm);
 }
 
 void PCD8544::DataMode(){
@@ -49,53 +48,21 @@ void PCD8544::reset(){
     digitalWrite(_RST, HIGH);
 }
 
-void PCD8544::executeCommand(byte c){
-    CommandMode();
-    WriteByte(c);
-}
-
 // contrast c should be between 0x00 and 0x7F inclusive (127 decimal) 
 void PCD8544::setContrast(uint8_t c){
-    CommandMode();
-    WriteByte(0x21);
+    CommandMode(ADVANCED);
     WriteByte(byte(0x80 + c));
 }
 
-void PCD8544::extendedInstruction(){
-    CommandMode();
-    WriteByte(0x21);
-}
-
-void PCD8544::basicInstruction(){
-    CommandMode();
-    WriteByte(0x20);
-}
-
-/**
- * Temperature Coefficient value could be one of 0, 1, 2 or 3;
- */
-void PCD8544::setTemperatureCoefficient(unsigned short value){
-    CommandMode();
-    WriteByte(0x21);
+// Temperature Coefficient value could be one of 0, 1, 2 or 3;
+void PCD8544::setTemperatureCoefficient(uint8_t value){
+    CommandMode(ADVANCED);
     WriteByte(byte(0x04 + value));
 }
 
-void PCD8544::makeEnoughSpaceForPrinting(unsigned short int newCharacterLength){
-    if((newCharacterLength + _cursor.getPosition().x) < 85)
-        return;
-
-    _cursor.moveYAxis(1);
-    setCursor(_cursor.getPosition().x, _cursor.getPosition().y);
-    DataMode();
-}
-
-void PCD8544::setCursor(position x, position y){
-    _cursor.setCursor(x, y);
-    _mycursor.y = 0;
-    _mycursor.x = 0;
-
-    CommandMode();
-    WriteByte(0x20);
+void PCD8544::setCursor(uint8_t x, uint8_t y){
+    Xcur = x; Ycur = y;
+    CommandMode(BASIC);
     WriteByte(byte(0x80 + x)); //set x position
     WriteByte(byte(0x40 + y)); //set y position
 }
@@ -103,64 +70,50 @@ void PCD8544::setCursor(position x, position y){
 void PCD8544::clear(){
     DataMode();
     for (int i=0; i<504; i++) WriteByte(0x0);
-
-    _mycursor.y = 0;
-    _mycursor.x = 0;
     setCursor(0, 0);
 }
 
-void PCD8544::clear(position inRow, position fromColumn, position toColumn){
+void PCD8544::clear(uint8_t inRow, uint8_t fromColumn, uint8_t toColumn){
     // toColumn has to be more than from Column, otherwise flip the values :D
-    position temp;
+    uint8_t temp;
     if(fromColumn > toColumn){
         temp       = fromColumn;
         fromColumn = toColumn;
         toColumn   = temp;
     }
-
-    position counter = fromColumn;
+    uint8_t counter = fromColumn;
     while(counter <= toColumn){
       setCursor(counter, inRow);
-      _mycursor.x = counter;
-      _mycursor.y = inRow;
-
-        DataMode();
-        WriteByte(0x0);
-        counter++;
+      DataMode();
+      WriteByte(0x00);
+      counter++;
     }
-
     setCursor(fromColumn, inRow);
-    _mycursor.x = fromColumn;
-    _mycursor.y = inRow;
 }
 
-void PCD8544::setDisplayMode(display_mode value){
-    CommandMode();
-    WriteByte(0x20);
+void PCD8544::setDisplayMode(byte value){
+    CommandMode(BASIC);
     WriteByte(value);
 }
 
-void PCD8544::setBiasSystem(mux_rate rate){
-    CommandMode();
-    WriteByte(0x21);
+void PCD8544::setBiasSystem(byte rate){
+    CommandMode(ADVANCED);
     WriteByte(rate);
 }
 
 size_t PCD8544::write(uint8_t ch) {
-    if (ch == 0x0a){ // \n for jumping to the beginning of a new line.
-        _cursor.moveYAxis(1);
+  if (ch == 0x0a){ // \n for jumping to the beginning of a new line.
+    Xcur = 0; Ycur++; if(Ycur > 5) Ycur = 0;
+  }
+  else {
+    if((8 + Xcur) >= 85) {Xcur = 0; Ycur++; if(Ycur > 5) Ycur = 0;}    
+    setCursor(Xcur, Ycur);
+    DataMode();
+    for (uint8_t i = 0; i < 8; i++) {
+      WriteByte(pgm_read_byte(&(Font8x8_[ch][i])));
     }
-    else {
-      setCursor(_cursor.getPosition().x, _cursor.getPosition().y);
-      DataMode();
-      character fontData = findCorrespondingByte(ch);
-      makeEnoughSpaceForPrinting(fontData.definition_total_bytes);
-      for(unsigned int i = 0; i < fontData.definition_total_bytes; i++){
-          WriteByte(fontData.definition[i]);
-      }
-      WriteByte(0x0); // add an empty line after each chars
-      _cursor.moveXAxis(fontData.definition_total_bytes + 1);
-    }
-    return 1;
+    Xcur = Xcur + 8;
+    if (Xcur > 83) {Xcur = 0; Ycur++; if(Ycur > 5) Ycur = 0;}
+  }
+  return 1;
 }
-
