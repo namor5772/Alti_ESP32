@@ -1,5 +1,6 @@
 #include "MS5637.h"
 #include "PCD8544.h"
+#include "Font.h"
 
 // Nokia 5772 - PCD8544 driver chip
 // 1 - VCC (3v3)
@@ -45,43 +46,22 @@ void setup() {
   Serial.print(chipId);
   Serial.println("\n");
 
-    lcd.setContrast(60);
-    lcd.setDisplayMode(NORMAL);
-    
-    lcd.print("Please Wait ...");
-    delay(2000);
-
-    lcd.clear();
-    delay(2000);
-
-    lcd.setDisplayMode(INVERSE);
-    delay(2000);
-
-    //lcd.setCursor(0, 0);
-    lcd.print("Hi there bb");
-    lcd.print(":D");
-    delay(2000);
-
-    lcd.setCursor(0, 1);
-    lcd.print("11111 2 3 ...");
-
-    lcd.setCursor(0, 2);
-    lcd.print("0123456789a");
-
-  
-    delay(2000);
-
-   
-    lcd.setCursor(0, 4);
-    lcd.print("abcdefghijklmno123456\n78901");
-
+  // setup lcd screen and display splash screen for 2 seconds
+  lcd.setContrast(60);
+  lcd.setDisplayMode(NORMAL);
+  lcd.print("Alti ESP32v2.0 Nov24");
+  lcd.setCursor(0, 3);
+  lcd.print("Roman M   Groblicki");
+  delay(4000);
+  lcd.clear();
+  lcd.setDisplayMode(INVERSE);
 
   // setup MS5637 sensor (An instance of the MS5637 object BARO has been constructed above)
   BARO.begin();
   BARO.dumpDebugOutput();
   BARO.getTempAndPressure(&temp, &pressure);
   altBase = BARO.pressure2altitude(pressure);
-  //altBase = 0.0;
+  altBase = 0.0;
   Serial.println(altBase);  
 }
 
@@ -96,8 +76,13 @@ void loop() {
     BARO.getTempAndPressure(&temp, &pressure);
   }
 
-  // Calculate altitude relative to where the altimeter was turned on
+  // display current temperature measured by the MS5637 (and used to
+  // improve calculation of air pressure)
+  lcd.Temperature(temp, 0, 2);
+
+  // Calculate and display the altitude relative to where the altimeter was turned on
   altRel = BARO.pressure2altitude(pressure) - altBase;
+  lcd.Altitude_smallfont(altRel, 2, 0);
 
   Serial.print(temp);
   Serial.print(" ");

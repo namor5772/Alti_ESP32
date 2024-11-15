@@ -22,7 +22,6 @@
 #define BASIC 0x20
 #define ADVANCED 0x21
 
-
 class PCD8544 : public Print {
 
   public:
@@ -34,6 +33,12 @@ class PCD8544 : public Print {
     void clear();
     void setDisplayMode(byte mode);
     void setBiasSystem(byte rate);
+
+    void writeBlock(uint8_t page, uint8_t col, uint8_t pages, uint8_t cols, uint16_t address, const uint8_t Arr[]);
+    void write8x8Char(uint8_t page, uint8_t column, uint16_t charCode, const uint8_t Arr[][8]);
+    void Temperature(float temp_, uint8_t page, uint8_t col);
+    void Altitude_smallfont(float altitude, uint8_t page, uint8_t col);
+    uint16_t ASCII2offset(char char_, uint16_t offsetScale);
 
     virtual size_t write(uint8_t ch); // Overriding Print's write method
     
@@ -52,6 +57,10 @@ class PCD8544 : public Print {
     // data variables
     uint8_t _RST, _CE, _DC, _DIN, _CLK;
     uint8_t Xcur, Ycur;
+
+    // specific char arrays used when displaying text on LED
+    char str_old[11]; char str_new[11];
+    char str_old0[11]; char str_new0[11];
 };
 
 #endif
