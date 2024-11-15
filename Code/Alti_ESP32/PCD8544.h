@@ -3,10 +3,10 @@
 #include "Arduino.h"
 
 // Display Mode constants
-#define BLANK 0x8
-#define NORMAL 0xc
-#define ALL_SEGMENTS_ON 0x9
-#define VIDEO 0xd
+#define BLANK 0x08
+#define NORMAL 0x0c
+#define ALL_ON 0x09
+#define INVERSE 0x0d
 
 // Bias System constants
 #define HUNDRED 0x10
@@ -30,9 +30,8 @@ class PCD8544 : public Print {
 
     void setContrast(uint8_t c);
     void setTemperatureCoefficient(uint8_t value);
-    void clear();
-    void clear(uint8_t inRow, uint8_t fromColumn, uint8_t toColumn);
     void setCursor(uint8_t x, uint8_t y);
+    void clear();
     void setDisplayMode(byte mode);
     void setBiasSystem(byte rate);
 
